@@ -11,7 +11,7 @@ function handleConnection () {
 
   connection.connect(err => {
     if (err) {
-      console.log('[mysql] ', err)
+      console.error('[mysql] ', err)
       setTimeout(handleConnection, 2000)
     } else {
       console.log('[mysql] DB Connected')
@@ -19,7 +19,7 @@ function handleConnection () {
   })
 
   connection.on('error', err => {
-    console.log('[mysql] ', err)
+    console.error('[mysql] ', err)
 
     if (err.code === 'PROTOCOL_CONNECTION_LOST') handleConnection()
     else throw err

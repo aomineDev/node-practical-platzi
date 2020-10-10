@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-const secure = require('./secure')
+const secure = require('../../../network/secure')
 const response = require('../../../network/response')
 const controller = require('./index')
 
@@ -46,7 +46,7 @@ function update (req, res, next) {
 
   controller.update(userId, data)
     .then(user => {
-      response.success(req, res, user, 201)
+      response.success(req, res, user, 200)
     })
     .catch(next)
 }

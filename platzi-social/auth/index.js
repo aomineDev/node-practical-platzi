@@ -4,11 +4,11 @@ const config = require('../config/index')
 const error = require('../utils/error')
 
 function sign (user) {
-  return jwt.sign(user, config.secret)
+  return jwt.sign(user, config.jwt.secret)
 }
 
 function verify (token) {
-  return jwt.verify(token, config.secret)
+  return jwt.verify(token, config.jwt.secret)
 }
 
 const check = {
@@ -18,6 +18,9 @@ const check = {
     if (decoded.id !== owner) {
       throw error('No tienes los permisos necesarios', 401)
     }
+  },
+  logged: req => {
+    decodeHeader(req)
   }
 }
 
@@ -27,6 +30,8 @@ function decodeHeader (req) {
   const token = getToken(authorization)
 
   const decoded = verify(token)
+
+  req.user = decoded
 
   return decoded
 }

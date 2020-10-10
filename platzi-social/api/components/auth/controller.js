@@ -10,7 +10,8 @@ function authController (injectedStore) {
   const store = injectedStore || dummyStore
 
   async function login (username, password) {
-    const user = await store.query(table, { username })
+    const users = await store.query(table, { username })
+    const user = users[0]
 
     if (user) {
       const payload = {

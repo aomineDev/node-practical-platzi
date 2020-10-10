@@ -22,12 +22,20 @@ function get (table, id) {
   })
 }
 
-function query (table, q) {
+function query (table, q, join) {
+  let joinQuery = ''
+
+  if (join) {
+    const key = Object.keys(join)[0]
+    const val = join[key]
+    joinQuery = `JOIN ${key} ON ${table}.${val} = ${key}.id`
+  }
+
   return new Promise((resolve, reject) => {
-    connection.query(`SELECT * FROM ${table} WHERE ?`, q, (error, results) => {
+    connection.query(`SELECT * FROM ${table} ${joinQuery} WHERE ?`, q, (error, results) => {
       if (error) return reject(error)
 
-      resolve(results[0] || null)
+      resolve(results || null)
     })
   })
 }
